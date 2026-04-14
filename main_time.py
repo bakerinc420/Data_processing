@@ -1,6 +1,6 @@
 from src.database.provider.reader import EMGReader
 from src.core.algorithms.time_domain import TimeDomainProcessor
-from src.utils.visualizer import EMGVisualizer
+from src.utils.time_visualizer import EMGVisualizer
 import numpy as np
 
 def run_analysis():

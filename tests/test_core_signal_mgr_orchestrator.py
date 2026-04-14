@@ -1,4 +1,4 @@
-from src.core.signal_mgr.orchestrator import SignalOrchestrator
+from src.core.signal_mgr.time_orchestrator import SignalOrchestrator
 import pandas as pd
 
 def test_full_patient_processing():
