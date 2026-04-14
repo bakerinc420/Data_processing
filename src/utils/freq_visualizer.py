@@ -133,3 +133,53 @@ class FreqVisualizer:
             cbar.set_label("Мощность (дБ)", fontsize=12)
         
         plt.show()
+
+    @staticmethod
+    def plot_single_spectrogram(signal, info):
+        """
+        Улучшенная отрисовка спектрограммы с высоким разрешением и сглаживанием.
+        """
+        if signal is None or len(signal) < 10:
+            print("❌ Ошибка: Сигнал отсутствует или слишком короткий для спектрограммы.")
+            return
+
+        # 1. Параметры окна
+        sig_len = len(signal)
+        n_per_seg = 1024  # Высокое частотное разрешение
+        n_overlap = 900   # Высокая плавность (перекрытие ~88%)
+
+        # Адаптация под короткий сигнал (чтобы не было ошибки noverlap >= nperseg)
+        if sig_len <= n_per_seg:
+            n_per_seg = sig_len if sig_len % 2 == 0 else sig_len - 1
+            n_overlap = int(n_per_seg * 0.8) # Сохраняем высокую плотность
+
+        # 2. Расчет спектрограммы
+        # Используем fs из конфига или стандартные 2000 Гц
+        f, t, Sxx = spectrogram(signal, fs=2000, nperseg=n_per_seg, noverlap=n_overlap)
+
+        # 3. Визуализация
+        plt.figure(f"Спектрограмма: {info.get('table', 'Unknown')}", figsize=(12, 7))
+        
+        # Переводим в дБ и рисуем с интерполяцией Gouraud
+        # vmin/vmax настроены на твой скриншот для лучшего контраста
+        pc = plt.pcolormesh(t, f, 10 * np.log10(Sxx + 1e-10), 
+                            shading='gouraud', 
+                            cmap='magma', 
+                            vmin=-25, 
+                            vmax=15)
+
+        # Оформление осей
+        plt.title(f"Спектрограмма: {info.get('table', 'data')} | Пациент {info.get('p_id', '?')}, Проба {info.get('trial', '?')}", 
+                  fontsize=13, fontweight='bold')
+        plt.ylabel("Частота (Гц)", fontsize=11)
+        plt.xlabel("Время (сек)", fontsize=11)
+        
+        # Гнатологический диапазон (отсекаем шум ниже 20Гц)
+        plt.ylim(20, 500) 
+        
+        # Цветовая шкала
+        cbar = plt.colorbar(pc)
+        cbar.set_label("Мощность (дБ)", rotation=270, labelpad=15)
+        
+        plt.tight_layout()
+        plt.show()

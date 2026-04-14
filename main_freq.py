@@ -77,6 +77,14 @@ def run_main():
             print(f"💡 Подсказка: Смещение MDF вниз говорит о мышечном утомлении.")
             
             viz.plot_window_freq(results)
+
+            full_sig = orchestrator.reader.get_signal(p_id, table) #
+            if full_sig is not None:
+                # Повторяем логику нарезки как в оркестраторе
+                sample = full_sig[(trial-1)*24000 : trial*24000]
+                
+                print(f"📊 Отрисовка спектрограммы для текущего массива...")
+                viz.plot_single_spectrogram(sample, results['info'])
             
     elif choice == "2":
         run_full_report(orchestrator, p_id, trial)
