@@ -17,8 +17,8 @@ DB_CONFIG = {
 # Пути к папкам
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
-REPORTS_DIR = os.path.join(BASE_DIR, "documents")
+REPORTS_DIR_DATA_MIO = os.path.join(BASE_DIR, "documents_data_mio")
 
 # Создаем папку для отчетов, если её нет
-if not os.path.exists(REPORTS_DIR):
-    os.makedirs(REPORTS_DIR)
+if not os.path.exists(REPORTS_DIR_DATA_MIO):
+    os.makedirs(REPORTS_DIR_DATA_MIO)

@@ -1,5 +1,5 @@
 import os
-from src.reporting.report_data_mio import MioReportGenerator  # Замените your_module_name на имя вашего файла
+from src.reporting.one_report_data_mio import MioReportGenerator  # Замените your_module_name на имя вашего файла
 
 def main():
     # Инициализируем генератор один раз
