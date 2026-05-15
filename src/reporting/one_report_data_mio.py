@@ -6,7 +6,6 @@ from docx import Document
 from docx.shared import Inches
 from datetime import datetime
 
-# Импорты ваших модулей
 from src.database.provider.reader import EMGReader
 from src.core.algorithms.time_domain import TimeDomainProcessor
 from src.core.algorithms.frequency_domain import FrequencyDomainProcessor

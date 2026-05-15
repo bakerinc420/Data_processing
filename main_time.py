@@ -24,13 +24,13 @@ def run_analysis():
     trial_idx = trial - 1
     full_signal = reader.get_signal(p_id, table)
     if full_signal is None: return
-
+  
     # 1. Получаем k3 и k4 из БД (ТОЛЬКО для тренда)
     k2_db, k3_db = reader.get_specific_borders(p_id, trial_idx) 
     
     # Загружаем пробу (24000 точек)
     sample = full_signal[trial_idx * 24000 : trial * 24000]
-
+   
     # 2. АВТОМАТИЧЕСКИЙ ПОИСК ГРАНИЦ АКТИВНОСТИ
     start_act, end_act = proc.find_activity_borders(sample)
     
@@ -122,6 +122,7 @@ def run_analysis():
     print(f"="*50)
 
     # 6. ВИЗУАЛИЗАЦИЯ
+    #viz.plot_window_1(full_signal, start_act, end_act, stats['max_amp'], stats['min_amp'])
     viz.plot_window_1(sample, start_act, end_act, stats['max_amp'], stats['min_amp'], 
                      title=f"ЭМГ (Пациент {p_id}, Проба {trial}, БД: {table})")
     
