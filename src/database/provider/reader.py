@@ -50,13 +50,13 @@ class EMGReader:
         
         try:
             # 1. Поиск по ID
+            query_k2 = f'SELECT {col_name} FROM "data_border_k2" WHERE id = {patient_id};'
             query_k3 = f'SELECT {col_name} FROM "data_border_k3" WHERE id = {patient_id};'
-            query_k4 = f'SELECT {col_name} FROM "data_border_k4" WHERE id = {patient_id};'
             
+            val_k2 = pd.read_sql(query_k2, self.engine).iloc[0, 0]
             val_k3 = pd.read_sql(query_k3, self.engine).iloc[0, 0]
-            val_k4 = pd.read_sql(query_k4, self.engine).iloc[0, 0]
             
-            return int(val_k3), int(val_k4)
+            return int(val_k2), int(val_k3)
         except Exception:
             try:
                 # 2. Поиск по OFFSET (смещение строки)
